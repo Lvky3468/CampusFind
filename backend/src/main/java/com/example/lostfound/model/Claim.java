@@ -57,15 +57,13 @@ public class Claim {
 
     // ================= PROOF IMAGES =================
 
-    @Lob
-    @Column(nullable = false, columnDefinition = "LONGBLOB")
-    @JsonIgnore
-    private byte[] govProofImage;
+    @Column(nullable = false, columnDefinition = "bytea")
+@JsonIgnore
+private byte[] govProofImage;
 
-    @Lob
-    @Column(nullable = false, columnDefinition = "LONGBLOB")
-    @JsonIgnore
-    private byte[] productProofImage;
+@Column(nullable = false, columnDefinition = "bytea")
+@JsonIgnore
+private byte[] productProofImage;
 
     // ================= STATUS =================
 

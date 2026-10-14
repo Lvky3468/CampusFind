@@ -32,9 +32,8 @@ public class ItemPost {
 
     private boolean lost;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] photo;
+   @Column(columnDefinition = "bytea")
+private byte[] photo;
 
     @Builder.Default
     private String status = "UNVERIFIED";     // default status
