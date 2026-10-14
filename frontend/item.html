@@ -1,229 +1,270 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<title>Item Details</title>
+  <head>
+    <title>Item Details</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="/css/alternate-ui.css">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script>
+    <link rel="stylesheet" href="/css/alternate-ui.css" />
+  </head>
 
-<body class="bg-light">
+  <body class="bg-light">
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+      <div class="container">
+        <a class="navbar-brand fw-bold">Lost & Found Portal</a>
 
-<!-- ================= NAVBAR ================= -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
-<div class="container">
+        <div class="ms-auto d-flex align-items-center gap-2">
+          <a href="/" class="btn btn-light btn-sm rounded-pill px-3">
+            <i class="fa fa-home me-1"></i> Home
+          </a>
 
-<a class="navbar-brand fw-bold">Lost & Found Portal</a>
+          <a
+            href="/my-claims.html"
+            class="btn btn-warning btn-sm rounded-pill px-3"
+          >
+            <i class="fa fa-list me-1"></i> My Claims
+          </a>
 
-<div class="ms-auto d-flex align-items-center gap-2">
+          <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+            <i class="fa fa-user-circle me-1"></i>
+            <span id="user"></span>
+          </span>
 
-  <a href="/" class="btn btn-light btn-sm rounded-pill px-3">
-    <i class="fa fa-home me-1"></i> Home
-  </a>
+          <button
+            onclick="logout()"
+            class="btn btn-danger btn-sm rounded-pill px-3"
+          >
+            <i class="fa fa-sign-out-alt me-1"></i> Logout
+          </button>
+        </div>
+      </div>
+    </nav>
 
-  <a href="/my-claims.html" class="btn btn-warning btn-sm rounded-pill px-3">
-    <i class="fa fa-list me-1"></i> My Claims
-  </a>
+    <!-- ================= ITEM DETAILS ================= -->
+    <div class="container mt-4">
+      <div class="card shadow-lg p-4">
+        <div class="row align-items-center">
+          <!-- IMAGE -->
+          <div class="col-md-5 text-center">
+            <img
+              id="img"
+              class="img-fluid rounded border"
+              style="max-height: 350px"
+            />
+          </div>
 
-  <span class="badge bg-light text-dark rounded-pill px-3 py-2">
-    <i class="fa fa-user-circle me-1"></i>
-    <span id="user"></span>
-  </span>
+          <!-- DETAILS -->
+          <div class="col-md-7">
+            <h3 id="title"></h3>
+            <p id="desc"></p>
 
-  <button onclick="logout()" class="btn btn-danger btn-sm rounded-pill px-3">
-    <i class="fa fa-sign-out-alt me-1"></i> Logout
-  </button>
+            <p><b>Location:</b> <span id="loc"></span></p>
+            <p><b>Category:</b> <span id="cat"></span></p>
+            <p><b>Status:</b> <span id="status"></span></p>
+            <p><b>Date:</b> <span id="date"></span></p>
+            <p><b>Mobile:</b> <span id="mobile"></span></p>
 
-</div>
-</div>
-</nav>
+            <div id="claimArea"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- ================= ITEM DETAILS ================= -->
-<div class="container mt-4">
-<div class="card shadow-lg p-4">
-<div class="row align-items-center">
+    <!-- ================= CLAIM MODAL ================= -->
+    <!-- ================= CLAIM MODAL ================= -->
+    <div class="modal fade" id="claimModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Claim Item</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
 
-  <!-- IMAGE -->
-  <div class="col-md-5 text-center">
-    <img id="img" class="img-fluid rounded border" style="max-height:350px">
-  </div>
+          <div class="modal-body">
+            <input
+              id="fullName"
+              class="form-control mb-2"
+              placeholder="Your Full Name"
+              required
+            />
 
-  <!-- DETAILS -->
-  <div class="col-md-7">
-    <h3 id="title"></h3>
-    <p id="desc"></p>
+            <input
+              id="age"
+              type="number"
+              class="form-control mb-2"
+              placeholder="Your Age"
+              required
+            />
 
-    <p><b>Location:</b> <span id="loc"></span></p>
-    <p><b>Category:</b> <span id="cat"></span></p>
-    <p><b>Status:</b> <span id="status"></span></p>
-    <p><b>Date:</b> <span id="date"></span></p>
-    <p><b>Mobile:</b> <span id="mobile"></span></p>
+            <input
+              id="claimMobile"
+              class="form-control mb-2"
+              placeholder="Your Mobile Number"
+              required
+            />
 
-    <div id="claimArea"></div>
-  </div>
+            <select id="proofType" class="form-control mb-2" required>
+              <option value="">Select Proof Type</option>
+              <option>Aadhaar Card</option>
+              <option>Driving License</option>
+              <option>College ID</option>
+              <option>Purchase Bill</option>
+              <option>Other Proof</option>
+            </select>
 
-</div>
-</div>
-</div>
+            <textarea
+              id="reason"
+              class="form-control mb-2"
+              placeholder="Reason for claiming this item"
+              rows="3"
+              required
+            ></textarea>
 
-<!-- ================= CLAIM MODAL ================= -->
-<!-- ================= CLAIM MODAL ================= -->
-<div class="modal fade" id="claimModal" tabindex="-1">
-<div class="modal-dialog modal-dialog-centered">
-<div class="modal-content">
+            <label class="form-label">Upload Government ID Proof</label>
+            <input
+              type="file"
+              id="govProofImage"
+              class="form-control mb-3"
+              accept="image/*"
+              required
+            />
 
-<div class="modal-header">
-  <h5 class="modal-title">Claim Item</h5>
-  <button class="btn-close" data-bs-dismiss="modal"></button>
-</div>
+            <label class="form-label"
+              >Upload Product Proof (Bill / Photo)</label
+            >
+            <input
+              type="file"
+              id="productProofImage"
+              class="form-control"
+              accept="image/*"
+              required
+            />
+          </div>
 
-<div class="modal-body">
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button onclick="submitClaim()" class="btn btn-warning">
+              Submit Claim
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <input id="fullName" class="form-control mb-2"
-         placeholder="Your Full Name" required>
+    <script>
+      /* ================= LOGIN CHECK ================= */
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("username");
 
-  <input id="age" type="number" class="form-control mb-2"
-         placeholder="Your Age" required>
+      if (!token) {
+        alert("Please login to view item details");
+        window.location = "/login.html";
+      }
 
-  <input id="claimMobile" class="form-control mb-2"
-         placeholder="Your Mobile Number" required>
+      /* ================= GET ITEM ID ================= */
+      const id = new URLSearchParams(window.location.search).get("id");
+      if (!id) {
+        alert("Invalid item");
+        window.location = "/";
+      }
 
-  <select id="proofType" class="form-control mb-2" required>
-    <option value="">Select Proof Type</option>
-    <option>Aadhaar Card</option>
-    <option>Driving License</option>
-    <option>College ID</option>
-    <option>Purchase Bill</option>
-    <option>Other Proof</option>
-  </select>
+      /* ================= LOAD ITEM ================= */
+      fetch(`${API_BASE_URL}/api/items/" + id)
+        .then((res) => res.json())
+        .then((i) => {
+          title.innerText = i.title;
+          desc.innerText = i.description ?? "";
+          loc.innerText = i.location ?? "-";
+          cat.innerText = i.category ?? "-";
+          status.innerText = i.status;
+          date.innerText = i.dateEvent;
+          mobile.innerText = i.mobile;
 
-  <textarea id="reason" class="form-control mb-2"
-            placeholder="Reason for claiming this item"
-            rows="3" required></textarea>
+          if (i.photo) img.src = "/api/items/photo/" + i.id;
+          else img.style.display = "none";
 
-  <label class="form-label">Upload Government ID Proof</label>
-  <input type="file" id="govProofImage"
-         class="form-control mb-3"
-         accept="image/*" required>
-
-  <label class="form-label">Upload Product Proof (Bill / Photo)</label>
-  <input type="file" id="productProofImage"
-         class="form-control"
-         accept="image/*" required>
-
-</div>
-
-<div class="modal-footer">
-  <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-  <button onclick="submitClaim()" class="btn btn-warning">
-    Submit Claim
-  </button>
-</div>
-
-</div>
-</div>
-</div>
-
-<script>
-/* ================= LOGIN CHECK ================= */
-const token = localStorage.getItem("token");
-const user  = localStorage.getItem("username");
-
-if (!token) {
-  alert("Please login to view item details");
-  window.location = "/login.html";
-}
-
-/* ================= GET ITEM ID ================= */
-const id = new URLSearchParams(window.location.search).get("id");
-if (!id) {
-  alert("Invalid item");
-  window.location = "/";
-}
-
-/* ================= LOAD ITEM ================= */
-fetch("/api/items/" + id)
-.then(res => res.json())
-.then(i => {
-
-  title.innerText  = i.title;
-  desc.innerText   = i.description ?? "";
-  loc.innerText    = i.location ?? "-";
-  cat.innerText    = i.category ?? "-";
-  status.innerText = i.status;
-  date.innerText   = i.dateEvent;
-  mobile.innerText = i.mobile;
-
-  if (i.photo) img.src = "/api/items/photo/" + i.id;
-  else img.style.display = "none";
-
-  if (!i.lost) {
-    claimArea.innerHTML = `
+          if (!i.lost) {
+            claimArea.innerHTML = `
       <button class="btn btn-warning w-100"
               data-bs-toggle="modal"
               data-bs-target="#claimModal">
         Claim Item
       </button>`;
-  } else {
-    claimArea.innerHTML =
-      `<small class="text-muted">Waiting for finder...</small>`;
-  }
+          } else {
+            claimArea.innerHTML = `<small class="text-muted">Waiting for finder...</small>`;
+          }
 
-  document.getElementById("user").innerText = user;
-});
+          document.getElementById("user").innerText = user;
+        });
 
-/* ================= SUBMIT CLAIM ================= */
-async function submitClaim(){
+      /* ================= SUBMIT CLAIM ================= */
+      async function submitClaim() {
+        const fullName = document.getElementById("fullName").value;
+        const age = document.getElementById("age").value;
+        const claimMobile = document.getElementById("claimMobile").value;
+        const govName = document.getElementById("proofType").value;
+        const reason = document.getElementById("reason").value;
 
-  const fullName = document.getElementById("fullName").value;
-  const age = document.getElementById("age").value;
-  const claimMobile = document.getElementById("claimMobile").value;
-  const govName = document.getElementById("proofType").value;
-  const reason = document.getElementById("reason").value;
+        const govProofImage = document.getElementById("govProofImage").files[0];
+        const productProofImage =
+          document.getElementById("productProofImage").files[0];
 
-  const govProofImage = document.getElementById("govProofImage").files[0];
-  const productProofImage = document.getElementById("productProofImage").files[0];
+        if (
+          !fullName ||
+          !age ||
+          !claimMobile ||
+          !govName ||
+          !reason ||
+          !govProofImage ||
+          !productProofImage
+        ) {
+          alert("All fields are required");
+          return;
+        }
 
-  if(!fullName || !age || !claimMobile || !govName || !reason || !govProofImage || !productProofImage){
-    alert("All fields are required");
-    return;
-  }
+        let formData = new FormData();
+        formData.append("fullName", fullName);
+        formData.append("age", age);
+        formData.append("mobile", claimMobile);
+        formData.append("govProofName", govName);
+        formData.append("reason", reason);
+        formData.append("govProofImage", govProofImage);
+        formData.append("productProofImage", productProofImage);
 
-  let formData = new FormData();
-  formData.append("fullName", fullName);
-  formData.append("age", age);
-  formData.append("mobile", claimMobile);
-  formData.append("govProofName", govName);
-  formData.append("reason", reason);
-  formData.append("govProofImage", govProofImage);
-  formData.append("productProofImage", productProofImage);
+        let res = await fetch(`${API_BASE_URL}/api/claims/" + id, {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          body: formData,
+        });
 
-  let res = await fetch("/api/claims/" + id, {
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer " + token
-    },
-    body: formData
-  });
+        if (!res.ok) {
+          const text = await res.text();
+          alert("Error: " + text);
+          return;
+        }
 
-  if (!res.ok) {
-    const text = await res.text();
-    alert("Error: " + text);
-    return;
-  }
+        alert("Claim submitted successfully");
+        location.reload();
+      }
 
-  alert("Claim submitted successfully");
-  location.reload();
-}
-
-/* ================= LOGOUT ================= */
-function logout(){
-  localStorage.clear();
-  window.location = "/login.html";
-}
-</script>
-
-</body>
+      /* ================= LOGOUT ================= */
+      function logout() {
+        localStorage.clear();
+        window.location = "/login.html";
+      }
+    </script>
+  </body>
 </html>
