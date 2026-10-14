@@ -1,0 +1,16 @@
+# Build output
+target/
+backend/target/
+*.class
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+application-local.properties
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
