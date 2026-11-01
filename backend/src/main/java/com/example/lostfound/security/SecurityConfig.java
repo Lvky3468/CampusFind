@@ -45,7 +45,11 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             ).permitAll()
 
             // ✅ PUBLIC APIs
-            .requestMatchers("/api/items/**", "/api/auth/**").permitAll()
+            .requestMatchers(
+    "/api/items",
+    "/api/items/**",
+    "/api/auth/**"
+).permitAll()
 
             // 🔐 ADMIN APIs ONLY
             .requestMatchers("/api/claims/pending",
